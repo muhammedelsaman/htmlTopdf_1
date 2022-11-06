@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
 import 'package:path_provider/path_provider.dart';
-
 import 'certificateDownload.dart';
 
 class html_to_pdf extends StatefulWidget {
@@ -33,7 +32,6 @@ class _html_to_pdfState extends State<html_to_pdf> {
         }
     </style>
 </head>
-
 <body class="container">
     <div class="row text-center">
         <div class="col-md-6 text-center my-auto mx-auto">

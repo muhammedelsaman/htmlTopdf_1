@@ -4,6 +4,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:http/http.dart' as http;
+
+import 'html_to_pdf.dart';
 
 class CertificateDownload extends StatefulWidget {
   const CertificateDownload(
@@ -37,6 +40,16 @@ class _CertificateDownloadState extends State<CertificateDownload> {
           title: const Text("Certificate"),
         ),
         body: SfPdfViewer.file(pdfFile()));
+  }
+
+  void makeRequest() async {
+    var response =
+        await http.get(Uri.parse('https://speiseplan.app.itelligence.org/'));
+    //If the http request is successful the statusCode will be 200
+    if (response.statusCode == 200) {
+      String htmlToParse = response.body;
+      print(htmlToParse);
+    }
   }
 
   File pdfFile() {
