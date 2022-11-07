@@ -1,4 +1,5 @@
-import 'dart:developer';
+// ignore_for_file: prefer_collection_literals, use_build_context_synchronously, avoid_print, unused_catch_stack, deprecated_member_use, use_key_in_widget_constructors, library_private_types_in_public_api, sized_box_for_whitespace
+
 import 'dart:io';
 
 import 'package:covert_html_to_pdf/certificateDownload.dart';
@@ -20,7 +21,7 @@ class _WebViewExampleState extends State<WebViewExample> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter Web View Example'),
+        title: const Text('Flutter Web View Example'),
       ),
       body: Center(
         child: Column(
@@ -50,7 +51,7 @@ class _WebViewExampleState extends State<WebViewExample> {
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20.0,
             ),
             ElevatedButton(
