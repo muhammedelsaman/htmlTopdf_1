@@ -40,6 +40,8 @@ dependencies:
   flutter_html_to_pdf: ^0.7.0
   path_provider: ^2.0.11
   webview_flutter: ^3.0.4
+  dio: ^4.0.6
+  flutter_riverpod: ^2.0.2
 
 
 dev_dependencies:
