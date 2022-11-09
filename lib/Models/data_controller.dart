@@ -13,12 +13,6 @@ class GetDataFromApi extends ChangeNotifier {
     getData();
   }
 
-  // Future getData() async {
-  //   DioHelper.getData(url: "products").then((value) {
-  //     listDataModel = ProductModel.fromMap(value.data);
-  //     notifyListeners();
-  //   });
-  // }
   Future getData() async {
     final data = await DioHelper.getData(url: "products");
     listDataModel = ProductModel.fromMap(data.data);
