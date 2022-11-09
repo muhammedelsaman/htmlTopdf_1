@@ -2,7 +2,7 @@
 
 import 'dart:io';
 
-import 'package:covert_html_to_pdf/certificateDownload.dart';
+import 'package:covert_html_to_pdf/ui/screen/certificateDownload.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
 import 'package:path_provider/path_provider.dart';
