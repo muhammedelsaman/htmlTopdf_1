@@ -1,3 +1,5 @@
+import 'package:covert_html_to_pdf/data/remote/dio_helper.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -45,6 +47,18 @@ class AllProductScreen extends ConsumerWidget {
                   ),
                 );
               }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          Response r = await DioHelper.postData(
+            url: 'login',
+            data: {
+              'email': 'mohammedelsaman@gmail.com',
+              'password': '123456',
+            },
+          );
+          print(r.data);
+        },
+      ),
     );
   }
 }
