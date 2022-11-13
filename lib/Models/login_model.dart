@@ -11,11 +11,6 @@ class ShopLoginModel {
 
   ShopLoginModel();
 
-  // ShopLoginModel.fromJson(Map<String, dynamic> json) {
-  //   status = json['status'];
-  //   message = json['message'];
-  //   data = json['data'] != null ? UserData.fromJson(json['data']) : null;
-  // }
 
   factory ShopLoginModel.fromJson(Map<String, dynamic> json) =>
       _$ShopLoginModelFromJson(json);
@@ -28,6 +23,7 @@ class UserData {
   int? id;
   String? name;
   String? email;
+  String? password;
   String? phone;
   String? image;
   int? points;
@@ -38,6 +34,7 @@ class UserData {
     this.id,
     this.name,
     this.email,
+    this.password,
     this.phone,
     this.image,
     this.points,
@@ -45,18 +42,7 @@ class UserData {
     this.token,
   });
 
-  // named constructor
 
-  // UserData.fromJson(Map<String, dynamic> json) {
-  //   id = json['id'];
-  //   name = json['name'];
-  //   email = json['email'];
-  //   phone = json['phone'];
-  //   image = json['image'];
-  //   points = json['points'];
-  //   credit = json['credit'];
-  //   token = json['token'];
-  // }
 
   factory UserData.fromJson(Map<String, dynamic> json) =>
       _$UserDataFromJson(json);
