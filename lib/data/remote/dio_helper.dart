@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 class DioHelper {
   static late Dio dio;
@@ -6,7 +7,8 @@ class DioHelper {
   static init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'https://dummyjson.com/',
+        //baseUrl: 'https://dummyjson.com/',
+        baseUrl: 'https://student.valuxapps.com/api/',
         receiveDataWhenStatusError: true,
       ),
     );
@@ -14,19 +16,30 @@ class DioHelper {
 
   static Future<Response> getData({
     required String url,
-    Map<String, dynamic>? query,
-    String lang = 'en',
-    String? token,
   }) async {
-    dio.options.headers = {
-      'Content-Type': 'application/json',
-      'lang': lang,
-      'Authorization': token,
-    };
-
     return await dio.get(
       url,
-      queryParameters: query,
     );
   }
+
+
+
+  static Future<Response> postData({
+    required String url,
+    required Map<String, dynamic> data,
+  }) async {
+
+    debugPrint(data.toString());
+
+    dio.options.headers = {
+      'Content-Type': 'application/json',
+    };
+
+    return await dio.post(
+      url,
+      data: data,
+    );
+
+  }
+
 }
