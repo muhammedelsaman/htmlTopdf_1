@@ -30,13 +30,13 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
             child: Consumer(builder: (context, WidgetRef ref, child) {
               final state = ref.watch(weatherNotifierProvider);
               if (state is WeatherInitial) {
-                return buildInitialInput();
+                return const InitialInput();
               } else if (state is WeatherLoading) {
-                return buildLoading();
+                return const Loading();
               } else if (state is WeatherLoaded) {
-                return buildColumnWithData(state.weather);
+                return ColumnWithData(weather: state.weather);
               } else {
-                return buildInitialInput();
+                return const InitialInput();
               }
             },
             ),
@@ -44,20 +44,36 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
       ),
     );
   }
+}
 
-  Widget buildInitialInput() {
+class InitialInput extends StatelessWidget {
+  const InitialInput({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return const Center(
       child: CityInputField(),
     );
   }
+}
 
-  Widget buildLoading() {
+class Loading extends StatelessWidget {
+  const Loading({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return const Center(
       child: CircularProgressIndicator(),
     );
   }
+}
 
-  Column buildColumnWithData(Weather weather) {
+class ColumnWithData extends StatelessWidget {
+  final Weather weather;
+  const ColumnWithData({Key? key, required this.weather}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
@@ -78,6 +94,7 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
     );
   }
 }
+
 
 class CityInputField extends ConsumerWidget {
   const CityInputField({super.key});
