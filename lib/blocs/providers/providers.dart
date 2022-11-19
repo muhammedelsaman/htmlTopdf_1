@@ -8,3 +8,4 @@ final weatherRepositoryProvider = Provider<WeatherRepository>(
 final weatherNotifierProvider = StateNotifierProvider(
     (ref) => WeatherNotifier(ref.watch(weatherRepositoryProvider))
 );
+

@@ -9,7 +9,7 @@ final getDataFuture =
 
 class GetDataFromApi extends ChangeNotifier {
   ProductModel listDataModel = ProductModel();
-  ShopLoginModel loginModel = ShopLoginModel();
+  ShopLoginModel loginDataModel = ShopLoginModel();
 
   GetDataFromApi() {
     getData();
@@ -25,12 +25,12 @@ class GetDataFromApi extends ChangeNotifier {
     required String url,
     required Map<String, dynamic> data,
   }) async {
-    final response = await DioHelper.postData(
+    final userData = await DioHelper.postData(
       url: url,
       data: data,
     );
     //listDataModel = ProductModel.fromMap(data.data);
-    loginModel = ShopLoginModel.fromJson(response.data);
+    loginDataModel = ShopLoginModel.fromJson(userData.data);
     notifyListeners();
   }
 }
