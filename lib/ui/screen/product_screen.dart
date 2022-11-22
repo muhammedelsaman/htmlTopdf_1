@@ -1,15 +1,13 @@
-import 'package:covert_html_to_pdf/data/remote/dio_helper.dart';
-import 'package:dio/dio.dart';
+import 'package:covert_html_to_pdf/Models/data_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../Models/data_controller.dart';
 
 class AllProductScreen extends ConsumerWidget {
-  const AllProductScreen({Key? key}) : super(key: key);
+  const AllProductScreen({super.key});
   @override
-  Widget build(BuildContext context, ref) {
-    final GetDataFromApi productModel = ref.watch(getDataFuture);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final DataController productModel = ref.watch(getDataFuture);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -46,17 +44,19 @@ class AllProductScreen extends ConsumerWidget {
                     ),
                   ),
                 );
-              }),
+              },),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          Response r = await DioHelper.postData(
-            url: 'login',
-            data: {
-              'email': 'mohammedelsaman@gmail.com',
-              'password': '123456',
-            },
-          );
-          print(r.data);
+
+          productModel.listDataModel.products!;
+
+          // Response r = await DioHelper.postData(
+          //   url: 'login',
+          //   data: {
+          //     'email': 'mohammedelsaman@gmail.com',
+          //     'password': '123456',
+          //   },
+          // );
         },
       ),
     );

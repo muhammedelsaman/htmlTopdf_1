@@ -50,7 +50,7 @@ class Product {
   String? thumbnail;
   List<String>? images;
 
-  factory Product.fromMap(Map<String, dynamic> json) => _$ProductFromJson(json);
+  factory Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
 
-  Map<String, dynamic> toMap() => _$ProductToJson(this);
+  Map<String, dynamic> toJson() => _$ProductToJson(this);
 }

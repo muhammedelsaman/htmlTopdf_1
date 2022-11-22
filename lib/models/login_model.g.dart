@@ -10,13 +10,15 @@ ShopLoginModel _$ShopLoginModelFromJson(Map<String, dynamic> json) =>
     ShopLoginModel()
       ..status = json['status'] as bool?
       ..message = json['message'] as String?
-      ..userData = UserData.fromJson(json['userData'] as Map<String, dynamic>);
+      ..data = json['data'] == null
+          ? null
+          : UserData.fromJson(json['data'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$ShopLoginModelToJson(ShopLoginModel instance) =>
     <String, dynamic>{
       'status': instance.status,
       'message': instance.message,
-      'userData': instance.userData.toJson(),
+      'data': instance.data?.toJson(),
     };
 
 UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(

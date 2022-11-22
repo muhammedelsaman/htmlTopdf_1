@@ -7,7 +7,7 @@ part 'login_model.g.dart';
 class ShopLoginModel {
   bool? status;
   String? message;
-  late UserData userData;
+  UserData? data;
 
   ShopLoginModel();
 

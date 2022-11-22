@@ -3,9 +3,7 @@ import 'package:covert_html_to_pdf/repositories/weather_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final weatherRepositoryProvider = Provider<WeatherRepository>(
-        (ref) => FakeWeatherRepository());
+        (ref) => FakeWeatherRepository(),);
 
 final weatherNotifierProvider = StateNotifierProvider(
-    (ref) => WeatherNotifier(ref.watch(weatherRepositoryProvider))
-);
-
+    (ref) => WeatherNotifier(ref.watch(weatherRepositoryProvider)),);

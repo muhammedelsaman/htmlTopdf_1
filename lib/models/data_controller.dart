@@ -5,19 +5,19 @@ import 'login_model.dart';
 import 'product_model.dart';
 
 final getDataFuture =
-    ChangeNotifierProvider<GetDataFromApi>((ref) => GetDataFromApi());
+    ChangeNotifierProvider<DataController>((ref) => DataController());
 
-class GetDataFromApi extends ChangeNotifier {
+class DataController extends ChangeNotifier {
   ProductModel listDataModel = ProductModel();
   ShopLoginModel loginDataModel = ShopLoginModel();
 
-  GetDataFromApi() {
+  DataController() {
     getData();
   }
 
   Future getData() async {
     final data = await DioHelper.getData(url: "products");
-    listDataModel = ProductModel.fromMap(data.data);
+    listDataModel = ProductModel.fromMap(data.extra);
     notifyListeners();
   }
 
@@ -30,7 +30,7 @@ class GetDataFromApi extends ChangeNotifier {
       data: data,
     );
     //listDataModel = ProductModel.fromMap(data.data);
-    loginDataModel = ShopLoginModel.fromJson(userData.data);
+    loginDataModel = ShopLoginModel.fromJson(userData.extra);
     notifyListeners();
   }
 }

@@ -1,49 +1,34 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class RepositoryLayer {
-  static SharedPreferences? sharedPreferences;
+class LocalStorge {
+   late SharedPreferences _sharedPreferences;
+    static final provider = Provider((ref) => LocalStorge());
 
 
-  static init() async {
-    sharedPreferences = await SharedPreferences.getInstance();
+   Future<void> init() async {
+    _sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  // iam not used now
-  // static Future<bool?> putBoolean({
-  //   required String key,
-  //   required bool value,
-  // }) async {
-  //   return await sharedPreferences?.setBool(key, value);
-  // }
-
-  static dynamic getData({
+   dynamic getData({
     required String key ,
   }) {
-    return sharedPreferences?.get(key);
+    return _sharedPreferences.get(key);
   }
 
-  static Future<bool?> saveData({
+   Future<void> saveData({
     required String key,
-    required dynamic value,
+    required String value,
   }) async {
-    if (value is String) {
-      return await sharedPreferences?.setString(key, value);
-    }
-    if (value is int) {
-      return await sharedPreferences?.setInt(key, value);
-    }
-    if (value is bool) {
-      return await sharedPreferences?.setBool(key, value);
-    }
-    return await sharedPreferences?.setDouble(key, value);
+
+      await  _sharedPreferences.setString(key, value);
+
   }
 
-
-  // iam not used now
-  // static Future<bool?> removeData({
-  //   required String key,
-  // }) async
-  // {
-  //   return await sharedPreferences?.remove(key);
-  // }
+   Future<bool> removeData({
+    required String key,
+  }) async
+  {
+    return  _sharedPreferences.remove(key);
+  }
 }
