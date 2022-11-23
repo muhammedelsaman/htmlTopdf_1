@@ -10,14 +10,11 @@ class RegisterScreen extends ConsumerStatefulWidget {
 }
 
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
-
   final formKey = GlobalKey<FormState>();
   String _name = '';
   String _email = '';
   String _password = '';
   String _phone = '';
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +42,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     height: 30.0,
                   ),
                   TextFormField(
-                    onSaved: (value){
-                      _name = value?? '';
+                    onSaved: (value) {
+                      _name = value ?? '';
                     },
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -66,9 +63,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     height: 15.0,
                   ),
                   TextFormField(
-                    onSaved: (value){
-                      _email = value?? '';
-                    },                    validator: (value) {
+                    onSaved: (value) {
+                      _email = value ?? '';
+                    },
+                    validator: (value) {
                       if (value!.isEmpty) {
                         return 'email address must not be empty';
                       }
@@ -85,8 +83,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     height: 15.0,
                   ),
                   TextFormField(
-                    onSaved: (value){
-                      _password = value?? '';
+                    onSaved: (value) {
+                      _password = value ?? '';
                     },
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -111,8 +109,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     height: 20.0,
                   ),
                   TextFormField(
-                    onSaved: (value){
-                      _phone = value?? '';
+                    onSaved: (value) {
+                      _phone = value ?? '';
                     },
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -136,29 +134,26 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     width: double.infinity,
                     color: Colors.blue,
                     child: Consumer(
-
-                        builder: (_, ref,__) {
-                          return MaterialButton(
-                            onPressed: () async {
-                              if (formKey.currentState!.validate()) {
-                                formKey.currentState?.save();
-                                ref.read(AuthNotifier.provider.notifier)
-                                    .register(
+                      builder: (_, ref, __) {
+                        return MaterialButton(
+                          onPressed: () async {
+                            if (formKey.currentState!.validate()) {
+                              formKey.currentState?.save();
+                              ref.read(AuthNotifier.provider.notifier).register(
                                   name: _name,
                                   email: _email,
                                   password: _password,
                                   phone: _phone,
-                                );
-                              }
-                            },
-                            child: const Text(
-                              'REGISTER',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          );
-                        },
+                              );
+                            }
+                          },
+                          child: const Text(
+                            'REGISTER',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        );
+                      },
                     ),
-
                   ),
                 ],
               ),

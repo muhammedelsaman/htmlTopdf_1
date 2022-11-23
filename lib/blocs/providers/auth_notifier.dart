@@ -1,8 +1,6 @@
 import 'package:covert_html_to_pdf/Models/login_model.dart';
 import 'package:covert_html_to_pdf/blocs/providers/auth_repository.dart';
-import 'package:covert_html_to_pdf/data/component/end_points.dart';
-import 'package:covert_html_to_pdf/data/remote/dio_helper.dart';
-import 'package:dio/dio.dart';
+import 'package:covert_html_to_pdf/blocs/providers/in_user_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 abstract class LoginStates {
@@ -35,40 +33,37 @@ class LoginNotLogged extends LoginStates {
 
 class AuthNotifier extends StateNotifier<LoginStates> {
   static final provider = StateNotifierProvider<AuthNotifier, LoginStates>(
-      (ref) => AuthNotifier(ref.read(AuthRepository.provider)),);
+    (ref) => AuthNotifier(
+        ref.read(AuthRepository.provider), ref.read(IUserApi.provider),),
+  );
 
-  AuthNotifier(this._authRepository) : super(LoginInitial());
+  AuthNotifier(this._authRepository, this._iuserApi) : super(LoginInitial());
   final AuthRepository _authRepository;
+  final IUserApi _iuserApi;
 
   Future<void> check() async {
-
-    final ShopLoginModel? loginModelCheck = await _authRepository.loginModelCheck() ;
-    if (loginModelCheck != null ) {
+    final ShopLoginModel? loginModelCheck =
+        await _authRepository.loginModelCheck();
+    if (loginModelCheck != null) {
       state = LoginSuccess(loginModelCheck);
     } else {
       state = LoginNotLogged();
     }
   }
 
-   Future<void> login({
-     required String email,
-     required String password,
-   }) async {
-     try {
-       state = LoginLoading();
-       final loginResponse = await DioHelper.postData(url: EndPoint.login, data: {
-         "email": email,
-         "password": password,
-       },);
-       final json = loginResponse.data as Map<String, dynamic>;
-       if (json['status'] == false) throw StateError('failed');
-       final loginModel = ShopLoginModel.fromJson(json);
-       _authRepository.save(loginModel);
-       state = LoginSuccess(loginModel);
-    } on DioError {
-       state = LoginError("Couldn't fetch data. Is the device online?");
+  Future<void> login({
+    required String email,
+    required String password,
+  }) async {
+    state = LoginLoading();
+    try {
+      final dataLogin = await _iuserApi.login(email: email, password: password);
+      _authRepository.save(dataLogin);
+      state = LoginSuccess(dataLogin);
+    } catch (e) {
+      state = LoginError((e as StateError).message);
     }
-   }
+  }
 
   Future<void> register({
     required String name,
@@ -76,26 +71,20 @@ class AuthNotifier extends StateNotifier<LoginStates> {
     required String password,
     required String phone,
   }) async {
+    state = LoginLoading();
     try {
-      state = LoginLoading();
-      final loginResponse = await DioHelper.postData(url: EndPoint.register, data: {
-        "name": name,
-        "email": email,
-        "password": password,
-        "phone": phone
-      },);
-      final json = loginResponse.data as Map<String, dynamic>;
-      if (json['status'] == false) throw StateError('failed');
-      final loginModel = ShopLoginModel.fromJson(json);
-      _authRepository.save(loginModel);
-      state = LoginSuccess(loginModel);
-    } on DioError {
-      state = LoginError("Couldn't fetch data. Is the device online?");
+      final dataRegister = await _iuserApi.register(
+          name: name, email: email, password: password, phone: phone,);
+      _authRepository.save(dataRegister);
+      state = LoginSuccess(dataRegister);
+    } catch (e) {
+      state = LoginError((e as StateError).message);
     }
   }
+
 
   Future<void> logout() async {
     _authRepository.delete();
     state = LoginNotLogged();
   }
-  }
+}
