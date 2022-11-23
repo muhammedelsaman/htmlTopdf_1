@@ -50,24 +50,13 @@ class AuthNotifier extends StateNotifier<LoginStates> {
     }
   }
 
- /* Future<void> login ({required String email, required String password}) async {
-
-    final ShopLoginModel? loginModel =
-    await _authRepository.login(email: email, password: password);
-
-    debugPrint(loginModel.toString());
-
-    // if (loginModel != ) {}
-
-  }*/
-
    Future<void> login({
      required String email,
      required String password,
    }) async {
      try {
        state = LoginLoading();
-       final loginResponse = await DioHelper.postData(url: LOGIN, data: {
+       final loginResponse = await DioHelper.postData(url: lOGIN, data: {
          "email": email,
          "password": password,
        },);
@@ -89,7 +78,7 @@ class AuthNotifier extends StateNotifier<LoginStates> {
   }) async {
     try {
       state = LoginLoading();
-      final loginResponse = await DioHelper.postData(url: REGISTER, data: {
+      final loginResponse = await DioHelper.postData(url: rEGISTER, data: {
         "name": name,
         "email": email,
         "password": password,

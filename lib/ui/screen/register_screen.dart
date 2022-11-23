@@ -11,17 +11,12 @@ class RegisterScreen extends ConsumerStatefulWidget {
 
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final phoneController = TextEditingController();
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
+  String _name = '';
+  String _email = '';
+  String _password = '';
+  String _phone = '';
 
-  @override
-  void dispose() {
-    super.dispose();
-
-  }
 
 
   @override
@@ -50,7 +45,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     height: 30.0,
                   ),
                   TextFormField(
-                    controller: nameController,
+                    onSaved: (value){
+                      _name = value?? '';
+                    },
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'password must not be empty';
@@ -69,8 +66,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     height: 15.0,
                   ),
                   TextFormField(
-                    controller: emailController,
-                    validator: (value) {
+                    onSaved: (value){
+                      _email = value?? '';
+                    },                    validator: (value) {
                       if (value!.isEmpty) {
                         return 'email address must not be empty';
                       }
@@ -87,7 +85,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     height: 15.0,
                   ),
                   TextFormField(
-                    controller: passwordController,
+                    onSaved: (value){
+                      _password = value?? '';
+                    },
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'password must not be empty';
@@ -111,7 +111,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     height: 20.0,
                   ),
                   TextFormField(
-                    controller: phoneController,
+                    onSaved: (value){
+                      _phone = value?? '';
+                    },
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'password must not be empty';
@@ -142,10 +144,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 formKey.currentState?.save();
                                 ref.read(AuthNotifier.provider.notifier)
                                     .register(
-                                  name: nameController.text,
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                  phone: phoneController.text,
+                                  name: _name,
+                                  email: _email,
+                                  password: _password,
+                                  phone: _phone,
                                 );
                               }
                             },

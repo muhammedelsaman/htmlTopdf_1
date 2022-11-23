@@ -1,13 +1,16 @@
 import 'package:covert_html_to_pdf/data/remote/dio_helper.dart';
+import 'package:covert_html_to_pdf/models/login_model.dart';
+import 'package:covert_html_to_pdf/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'login_model.dart';
-import 'product_model.dart';
 
-final getDataFuture =
-    ChangeNotifierProvider<DataController>((ref) => DataController());
+
 
 class DataController extends ChangeNotifier {
+ static final provider =
+  ChangeNotifierProvider<DataController>((ref) => DataController());
+
+
   ProductModel listDataModel = ProductModel();
   ShopLoginModel loginDataModel = ShopLoginModel();
 

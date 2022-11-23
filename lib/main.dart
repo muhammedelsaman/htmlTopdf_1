@@ -24,11 +24,6 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
           home: const SplashScreen(),
-        // home:   Consumer(builder: (_,ref,__){
-        //   final state = ref.read(LoginNotifier.provider);
-        //   print(state);
-        //   return state is LoginSuccess ? const HomeScreen():const LoginScreen();
-        // },),
       ),
     );
   }

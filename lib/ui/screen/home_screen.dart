@@ -1,11 +1,10 @@
+import 'package:covert_html_to_pdf/blocs/providers/auth_notifier.dart';
+import 'package:covert_html_to_pdf/ui/screen/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../blocs/providers/auth_notifier.dart';
-import 'login_screen.dart';
-
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -14,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
 
-  var formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ref.read(AuthNotifier.provider.notifier).logout();
                             Navigator.pushAndRemoveUntil(context,
                              MaterialPageRoute(builder: (context) => const LoginScreen()),
-                             (route) => false);
+                             (route) => false,);
                           },
                           child: const Text(
                             'LOGOUT',
@@ -73,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         );
-                      }
+                      },
                     ),
                   ),
                 ),
@@ -85,5 +84,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-

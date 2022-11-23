@@ -1,10 +1,10 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:covert_html_to_pdf/blocs/providers/auth_notifier.dart';
+import 'package:covert_html_to_pdf/ui/screen/home_screen.dart';
 import 'package:covert_html_to_pdf/ui/screen/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'home_screen.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -15,20 +15,13 @@ class LoginScreen extends ConsumerStatefulWidget {
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
 
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  var formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
+  String _email = '';
+  String _password = '';
 
   @override
   void initState() {
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
   }
 
   void _listenToNotifier(LoginStates state) {
@@ -36,7 +29,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => const HomeScreen()),
-          (route) => false);
+          (route) => false,);
     }
   }
 
@@ -69,7 +62,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     height: 30.0,
                   ),
                   TextFormField(
-                    controller: emailController,
+                    onSaved: (value){
+                      _email = value?? '';
+                    },
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'email address must not be empty';
@@ -87,7 +82,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     height: 15.0,
                   ),
                   TextFormField(
-                    controller: passwordController,
+                    onSaved: (value){
+                      _password = value?? '';
+                    },
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'password must not be empty';
@@ -121,8 +118,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             if (formKey.currentState!.validate()) {
                               formKey.currentState?.save();
                               ref.read(AuthNotifier.provider.notifier).login(
-                                email: emailController.text,
-                                password: passwordController.text,
+                                email: _email,
+                                password: _password,
                               );
                             }
                           },
@@ -131,7 +128,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             style: TextStyle(color: Colors.white),
                           ),
                         );
-                      }
+                      },
                     ),
 
                   ),
@@ -143,7 +140,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       onPressed: () {
                        Navigator.push(context,
                            MaterialPageRoute(builder:
-                               (context) => const RegisterScreen()));
+                               (context) => const RegisterScreen(),),);
                       },
                       child: const Text(
                         'REGISTER',
