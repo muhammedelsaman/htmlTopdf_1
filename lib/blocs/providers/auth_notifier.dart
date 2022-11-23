@@ -56,7 +56,7 @@ class AuthNotifier extends StateNotifier<LoginStates> {
    }) async {
      try {
        state = LoginLoading();
-       final loginResponse = await DioHelper.postData(url: lOGIN, data: {
+       final loginResponse = await DioHelper.postData(url: EndPoint.login, data: {
          "email": email,
          "password": password,
        },);
@@ -78,7 +78,7 @@ class AuthNotifier extends StateNotifier<LoginStates> {
   }) async {
     try {
       state = LoginLoading();
-      final loginResponse = await DioHelper.postData(url: rEGISTER, data: {
+      final loginResponse = await DioHelper.postData(url: EndPoint.register, data: {
         "name": name,
         "email": email,
         "password": password,

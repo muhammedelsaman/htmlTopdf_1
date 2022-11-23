@@ -7,7 +7,7 @@ class AllProductScreen extends ConsumerWidget {
   const AllProductScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final DataController productModel = ref.watch(getDataFuture);
+    final DataController productModel = ref.watch(DataController.provider);
     return Scaffold(
       appBar: AppBar(
         title: const Text(

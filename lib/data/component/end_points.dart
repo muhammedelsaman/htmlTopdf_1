@@ -1,4 +1,6 @@
+mixin EndPoint{
+ static const login = 'login';
 
-const lOGIN = 'login';
+ static const register = 'register';
+}
 
-const rEGISTER = 'register';
