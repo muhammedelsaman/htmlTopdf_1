@@ -1,23 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-class DioHelper {
-  static late Dio dio;
-
-  static init() {
-    dio = Dio(
-      BaseOptions(
-        //baseUrl: 'https://dummyjson.com/',
-        baseUrl: 'https://student.valuxapps.com/api/',
-        receiveDataWhenStatusError: true,
-      ),
-    );
-  }
+mixin  DioHelper {
+  static  Dio dio=Dio(
+    BaseOptions(
+      baseUrl: 'https://student.valuxapps.com/api/',
+      receiveDataWhenStatusError: true,
+    ),
+  );
 
   static Future<Response> getData({
     required String url,
   }) async {
-    return await dio.get(
+    return  dio.get(
       url,
     );
   }
@@ -35,7 +30,7 @@ class DioHelper {
       'Content-Type': 'application/json',
     };
 
-    return await dio.post(
+    return  dio.post(
       url,
       data: data,
     );

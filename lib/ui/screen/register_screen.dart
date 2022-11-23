@@ -1,43 +1,26 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:covert_html_to_pdf/blocs/providers/auth_notifier.dart';
-import 'package:covert_html_to_pdf/ui/screen/home_screen.dart';
-import 'package:covert_html_to_pdf/ui/screen/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginScreen extends ConsumerStatefulWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends ConsumerStatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  ConsumerState<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends ConsumerState<LoginScreen> {
+class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   final formKey = GlobalKey<FormState>();
+  String _name = '';
   String _email = '';
   String _password = '';
+  String _phone = '';
 
-  @override
-  void initState() {
-    super.initState();
-  }
 
-  void _listenToNotifier(LoginStates state) {
-    if (state is LoginSuccess) {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
-          (route) => false,);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<LoginStates>(AuthNotifier.provider, (previousPage, nextPage) {
-      _listenToNotifier(nextPage);
-    });
     return Scaffold(
       appBar: AppBar(
         title: const Text('Demo Post Data'),
@@ -52,7 +35,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'LOGIN',
+                    'REGISTER',
                     style: TextStyle(
                       fontSize: 40.0,
                       fontWeight: FontWeight.bold,
@@ -63,9 +46,29 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                   TextFormField(
                     onSaved: (value){
-                      _email = value?? '';
+                      _name = value?? '';
                     },
                     validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'password must not be empty';
+                      }
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                      labelText: 'Name',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(
+                        Icons.lock,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15.0,
+                  ),
+                  TextFormField(
+                    onSaved: (value){
+                      _email = value?? '';
+                    },                    validator: (value) {
                       if (value!.isEmpty) {
                         return 'email address must not be empty';
                       }
@@ -107,47 +110,56 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   const SizedBox(
                     height: 20.0,
                   ),
+                  TextFormField(
+                    onSaved: (value){
+                      _phone = value?? '';
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'password must not be empty';
+                      }
+                      return null;
+                    },
+                    keyboardType: TextInputType.phone,
+                    decoration: const InputDecoration(
+                      labelText: 'Phone',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(
+                        Icons.phone_iphone,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
                   Container(
                     width: double.infinity,
                     color: Colors.blue,
                     child: Consumer(
 
-                      builder: (_, ref,__) {
-                        return MaterialButton(
-                          onPressed: () async {
-                            if (formKey.currentState!.validate()) {
-                              formKey.currentState?.save();
-                              ref.read(AuthNotifier.provider.notifier).login(
-                                email: _email,
-                                password: _password,
-                              );
-                            }
-                          },
-                          child: const Text(
-                            'LOGIN',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        );
-                      },
+                        builder: (_, ref,__) {
+                          return MaterialButton(
+                            onPressed: () async {
+                              if (formKey.currentState!.validate()) {
+                                formKey.currentState?.save();
+                                ref.read(AuthNotifier.provider.notifier)
+                                    .register(
+                                  name: _name,
+                                  email: _email,
+                                  password: _password,
+                                  phone: _phone,
+                                );
+                              }
+                            },
+                            child: const Text(
+                              'REGISTER',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          );
+                        },
                     ),
 
                   ),
-                  const SizedBox(height: 15.0,),
-                  Container(
-                    width: double.infinity,
-                    color: Colors.blue,
-                    child: MaterialButton(
-                      onPressed: () {
-                       Navigator.push(context,
-                           MaterialPageRoute(builder:
-                               (context) => const RegisterScreen(),),);
-                      },
-                      child: const Text(
-                        'REGISTER',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    ),
                 ],
               ),
             ),

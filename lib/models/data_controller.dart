@@ -1,23 +1,26 @@
 import 'package:covert_html_to_pdf/data/remote/dio_helper.dart';
+import 'package:covert_html_to_pdf/models/login_model.dart';
+import 'package:covert_html_to_pdf/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'login_model.dart';
-import 'product_model.dart';
 
-final getDataFuture =
-    ChangeNotifierProvider<GetDataFromApi>((ref) => GetDataFromApi());
 
-class GetDataFromApi extends ChangeNotifier {
+
+class DataController extends ChangeNotifier {
+ static final provider =
+  ChangeNotifierProvider<DataController>((ref) => DataController());
+
+
   ProductModel listDataModel = ProductModel();
-  ShopLoginModel loginModel = ShopLoginModel();
+  ShopLoginModel loginDataModel = ShopLoginModel();
 
-  GetDataFromApi() {
+  DataController() {
     getData();
   }
 
   Future getData() async {
     final data = await DioHelper.getData(url: "products");
-    listDataModel = ProductModel.fromMap(data.data);
+    listDataModel = ProductModel.fromMap(data.extra);
     notifyListeners();
   }
 
@@ -25,12 +28,12 @@ class GetDataFromApi extends ChangeNotifier {
     required String url,
     required Map<String, dynamic> data,
   }) async {
-    final response = await DioHelper.postData(
+    final userData = await DioHelper.postData(
       url: url,
       data: data,
     );
     //listDataModel = ProductModel.fromMap(data.data);
-    loginModel = ShopLoginModel.fromJson(response.data);
+    loginDataModel = ShopLoginModel.fromJson(userData.extra);
     notifyListeners();
   }
 }

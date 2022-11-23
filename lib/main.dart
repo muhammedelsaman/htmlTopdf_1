@@ -1,10 +1,12 @@
-import 'package:covert_html_to_pdf/data/remote/dio_helper.dart';
-import 'package:covert_html_to_pdf/ui/screen/weather_search_page.dart';
+import 'package:covert_html_to_pdf/ui/screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> main() async {
-  await DioHelper.init();
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home:  const WeatherSearchPage(),
+          home: const SplashScreen(),
       ),
     );
   }

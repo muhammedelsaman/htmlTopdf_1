@@ -8,7 +8,7 @@ part of 'product_model.dart';
 
 ProductModel _$ProductModelFromJson(Map<String, dynamic> json) => ProductModel(
       products: (json['products'] as List<dynamic>?)
-          ?.map((e) => Product.fromMap(e as Map<String, dynamic>))
+          ?.map((e) => Product.fromJson(e as Map<String, dynamic>))
           .toList(),
       total: json['total'] as int?,
       skip: json['skip'] as int?,
@@ -17,7 +17,7 @@ ProductModel _$ProductModelFromJson(Map<String, dynamic> json) => ProductModel(
 
 Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
     <String, dynamic>{
-      'products': instance.products?.map((e) => e.toMap()).toList(),
+      'products': instance.products?.map((e) => e.toJson()).toList(),
       'total': instance.total,
       'skip': instance.skip,
       'limit': instance.limit,
