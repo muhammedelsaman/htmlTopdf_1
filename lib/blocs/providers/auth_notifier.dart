@@ -1,5 +1,5 @@
 import 'package:covert_html_to_pdf/Models/login_model.dart';
-import 'package:covert_html_to_pdf/blocs/providers/auth_repository.dart';
+import 'package:covert_html_to_pdf/blocs/providers/in_auth_repo.dart';
 import 'package:covert_html_to_pdf/blocs/providers/in_user_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -34,16 +34,16 @@ class LoginNotLogged extends LoginStates {
 class AuthNotifier extends StateNotifier<LoginStates> {
   static final provider = StateNotifierProvider<AuthNotifier, LoginStates>(
     (ref) => AuthNotifier(
-        ref.read(AuthRepository.provider), ref.read(IUserApi.provider),),
+         ref.read(IUserApi.provider),ref.read(IAuthRepo.provider),),
   );
 
-  AuthNotifier(this._authRepository, this._iuserApi) : super(LoginInitial());
-  final AuthRepository _authRepository;
+  AuthNotifier(this._iuserApi, this._iAuthRepo) : super(LoginInitial());
   final IUserApi _iuserApi;
+  final IAuthRepo _iAuthRepo;
 
   Future<void> check() async {
     final ShopLoginModel? loginCheck =
-        await _authRepository.loginCheck();
+        await _iAuthRepo.check();
     if (loginCheck != null) {
       state = LoginSuccess(loginCheck);
     } else {
@@ -58,7 +58,7 @@ class AuthNotifier extends StateNotifier<LoginStates> {
     state = LoginLoading();
     try {
       final dataLogin = await _iuserApi.login(email: email, password: password);
-      await _authRepository.save(dataLogin);
+      await _iAuthRepo.save(dataLogin);
       state = LoginSuccess(dataLogin);
     } catch (e) {
       state = LoginError((e as StateError).message);
@@ -75,7 +75,7 @@ class AuthNotifier extends StateNotifier<LoginStates> {
     try {
       final dataRegister = await _iuserApi.register(
           name: name, email: email, password: password, phone: phone,);
-      await _authRepository.save(dataRegister);
+      await _iAuthRepo.save(dataRegister);
       state = LoginSuccess(dataRegister);
     } catch (e) {
       state = LoginError((e as StateError).message);
@@ -84,7 +84,7 @@ class AuthNotifier extends StateNotifier<LoginStates> {
 
 
   Future<void> logout() async {
-    _authRepository.delete();
+    _iAuthRepo.delete();
     state = LoginNotLogged();
   }
 }
