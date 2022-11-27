@@ -42,10 +42,10 @@ class AuthNotifier extends StateNotifier<LoginStates> {
   final IUserApi _iuserApi;
 
   Future<void> check() async {
-    final ShopLoginModel? loginModelCheck =
-        await _authRepository.loginModelCheck();
-    if (loginModelCheck != null) {
-      state = LoginSuccess(loginModelCheck);
+    final ShopLoginModel? loginCheck =
+        await _authRepository.loginCheck();
+    if (loginCheck != null) {
+      state = LoginSuccess(loginCheck);
     } else {
       state = LoginNotLogged();
     }
@@ -58,7 +58,7 @@ class AuthNotifier extends StateNotifier<LoginStates> {
     state = LoginLoading();
     try {
       final dataLogin = await _iuserApi.login(email: email, password: password);
-      _authRepository.save(dataLogin);
+      await _authRepository.save(dataLogin);
       state = LoginSuccess(dataLogin);
     } catch (e) {
       state = LoginError((e as StateError).message);
@@ -75,7 +75,7 @@ class AuthNotifier extends StateNotifier<LoginStates> {
     try {
       final dataRegister = await _iuserApi.register(
           name: name, email: email, password: password, phone: phone,);
-      _authRepository.save(dataRegister);
+      await _authRepository.save(dataRegister);
       state = LoginSuccess(dataRegister);
     } catch (e) {
       state = LoginError((e as StateError).message);

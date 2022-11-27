@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:covert_html_to_pdf/Models/login_model.dart';
 import 'package:covert_html_to_pdf/blocs/providers/local_storge.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,10 +13,11 @@ class AuthRepository {
 
    final LocalStorge _localStorge;
 
-  Future<ShopLoginModel?> loginModelCheck() async {
+  Future<ShopLoginModel?> loginCheck() async {
     final savedData =  _localStorge.getData(
       key: 'loginData',
     );
+
     final model = savedData is String ? jsonDecode(savedData) : null;
     if (model is Map<String, dynamic>) {
       return ShopLoginModel.fromJson(model);
@@ -26,7 +26,7 @@ class AuthRepository {
   }
 
   Future<void> save (ShopLoginModel loginModel) async {
-     _localStorge.saveData(
+    await  _localStorge.saveData(
         key: 'loginData',
         value: jsonEncode(loginModel.toJson()),
     );
